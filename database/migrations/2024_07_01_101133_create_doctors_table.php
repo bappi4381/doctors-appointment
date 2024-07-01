@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable(false);
+            $table->unsignedBigInteger('specialization_id')->nullable(false);
+            $table->string('bio')->nullable();
+            $table->string('experience')->nullable();
             $table->timestamps();
         });
     }

@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('doctor_locations', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('doctor_id')->nullable(false);
+            $table->unsignedBigInteger('location_id')->nullable(false);
+            $table->string('address')->nullable();
             $table->timestamps();
         });
     }

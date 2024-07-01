@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable(false);
+            $table->date('date_of_birth')->nullable();
+            $table->string('gender')->nullable();
+            $table->text('medical_history')->nullable();
             $table->timestamps();
         });
     }

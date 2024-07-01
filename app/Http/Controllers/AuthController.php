@@ -18,7 +18,7 @@ class AuthController extends Controller
             'lastname' => 'nullable|string',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
-            'user_type' => 'required|string|in:admin,user,doctor,patient',
+            'user_type' => 'required|string|in:doctor,patient',
             'phone' => 'nullable|string',
         ]);
 
@@ -29,7 +29,7 @@ class AuthController extends Controller
         $user = User::create([
             'username'=>$request->username,
             'firstname' => $request->firstname,
-            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'user_type'=>$request->user_type,

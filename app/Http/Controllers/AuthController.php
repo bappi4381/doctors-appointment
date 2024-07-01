@@ -27,13 +27,13 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'username'=>$request->username,
+            'username'  => $request->username,
             'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'user_type'=>$request->user_type,
-            'phone'=>$request->phone,
+            'lastname'  => $request->lastname,
+            'email'     => $request->email,
+            'password'  => bcrypt($request->password),
+            'user_type' => $request->user_type,
+            'phone'     => $request->phone,
         ]);
 
         $token = $user->createToken('YourAppToken')->accessToken;
@@ -43,7 +43,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('username','email', 'password');
+        $credentials = $request->only('username', 'email', 'password');
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();

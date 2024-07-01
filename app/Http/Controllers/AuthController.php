@@ -13,9 +13,13 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:50|unique:users',
+            'firstname' => 'nullable|string',
+            'lastname' => 'nullable|string',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
+            'user_type' => 'required|string|in:admin,user,doctor,patient',
+            'phone' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -23,9 +27,13 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'name' => $request->name,
+            'username'=>$request->username,
+            'firstname' => $request->firstname,
+            'firstname' => $request->firstname,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'user_type'=>$request->user_type,
+            'phone'=>$request->phone,
         ]);
 
         $token = $user->createToken('YourAppToken')->accessToken;
@@ -35,7 +43,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('username','email', 'password');
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();

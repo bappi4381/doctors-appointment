@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AccessController;
 
 
@@ -16,4 +15,5 @@ use App\Http\Controllers\AccessController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('roles', [AccessController::class, 'get_roles']);
 Route::post('role-permission/hasRole', [AccessController::class, 'hasRole']);

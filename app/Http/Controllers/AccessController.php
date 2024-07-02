@@ -3,12 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 
 
 class AccessController extends Controller
 {
+    public function get_roles()
+    {
+        $role = Role::all();
+        return $role;
+    }
+
     public function hasRole(Request $request)
     {
         $validator = Validator::make($request->all(), [

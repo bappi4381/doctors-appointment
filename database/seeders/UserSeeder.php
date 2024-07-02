@@ -24,15 +24,6 @@ class UserSeeder extends Seeder
             'email'     => 'admin@gmail.com',
             'password'  => bcrypt(12345678),
             'user_type' => 'admin',
-        ]);
-
-        $role = Role::where('name','admin')->first();
-
-        DB::table('model_has_roles')->insert([
-            'role_id' => $role->id,
-            'model_type' => 'App\Models\User',
-            'model_id' => $user->id,
-            'team_id' => 1,
-        ]);
+        ])->assignRole('admin');
     }
 }

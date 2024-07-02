@@ -28,11 +28,6 @@ class AccessController extends Controller
             return $validator->errors();
  
         $user = User::find($request->user);
-        // return $user->hasRole($request->roles);
-        if ($user->hasRole($request->roles)) {
-            return response()->json(['message' => 'User has the admin role.']);
-        }else{
-            return response()->json(['message' => 'User has not the admin role.']);
-        }
+        return $user->hasRole($request->roles);
     }
 }

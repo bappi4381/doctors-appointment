@@ -13,13 +13,13 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:50|unique:users',
+            'username'  => 'required|string|max:50|unique:users',
             'firstname' => 'nullable|string',
-            'lastname' => 'nullable|string',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'lastname'  => 'nullable|string',
+            'email'     => 'required|string|email|max:255|unique:users',
+            'password'  => 'required|string|min:6',
             'user_type' => 'required|string|in:doctor,patient',
-            'phone' => 'nullable|string',
+            'phone'     => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -43,9 +43,20 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('username', 'email', 'password');
+        $validator = Validator::make($request->all(), [
+            'username' => 'required_without:email',
+            'email' => 'required_without:username|email',
+            'password' => 'required|string|min:6',
+        ]);
 
-        if (Auth::attempt($credentials)) {
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $credentials = $request->only('username', 'email', 'password');
+        $field = filter_var($request->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        if (Auth::attempt([$field => $credentials[$field], 'password' => $credentials['password']])) {
             $user = Auth::user();
             $token = $user->createToken('YourAppToken')->accessToken;
             return response()->json(['token' => $token], 200);

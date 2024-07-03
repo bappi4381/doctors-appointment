@@ -29,7 +29,7 @@ class DoctorsController extends Controller
     public function show($id)
     {
         $doctor = User::where('id', $id)->where('user_type', 'doctor')->first();
-        return response()->json($doctors, 200);
+        return response()->json($doctor, 200);
     }
 
 }

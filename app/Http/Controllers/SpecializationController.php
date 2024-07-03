@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Specialization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SpecializationController extends Controller
 {
@@ -36,7 +37,7 @@ class SpecializationController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'specialization_name' => 'required|string|unique:specializations|max:255',
+            'specialization_name' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {

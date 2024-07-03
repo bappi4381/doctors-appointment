@@ -35,7 +35,19 @@ class SpecializationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'specialization_name' => 'required|string|unique:specializations|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $specialization = Specialization::create([
+            'specialization_name' => $request->input('specialization_name'),
+        ]);
+
+        return response()->json(['message' => 'Specialization added successfully', 'specialization' => $specialization], 201);
     }
 
     /**

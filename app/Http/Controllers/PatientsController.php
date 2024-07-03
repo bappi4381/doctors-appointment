@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Patients;
+use App\Models\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class PatientsController extends Controller
 {
@@ -24,7 +26,7 @@ class PatientsController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,7 +37,27 @@ class PatientsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'date_of_birth' => 'nullable|date',
+            'gender' => 'nullable|string',
+            'medical_history' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $user = Auth::user();
+
+        $patient = Patient::create([
+            'user_id' => $user->id,
+            'date_of_birth' => $request->input('date_of_birth'),
+            'gender' => $request->input('gender'),
+            'medical_history' => $request->input('medical_history'),
+        ]);
+
+        return response()->json(['message' => 'Patient information added successfully', 'patient' => $patient], 201);
+    
     }
 
     /**

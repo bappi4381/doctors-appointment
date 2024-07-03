@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', 'App\Http\Controllers\AuthController@register');
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
 
+Route::post('/user/add', 'App\Http\Controllers\AdminController@userAdd');
+Route::get('/doctors', 'App\Http\Controllers\DoctorsController@index');
+Route::get('/doctor/{id}', 'App\Http\Controllers\DoctorsController@show');
+
+Route::post('/patients', 'App\Http\Controllers\PatientsController@store');
+Route::post('/specializations', 'App\Http\Controllers\SpecializationController@store');

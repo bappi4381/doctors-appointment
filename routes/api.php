@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DoctorsController;
+use App\Http\Controllers\PatientsController;
+use App\Http\Controllers\SpecializationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,12 +18,12 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/register', 'App\Http\Controllers\AuthController@register');
-Route::post('/login', 'App\Http\Controllers\AuthController@login');
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
 
-Route::post('/user/add', 'App\Http\Controllers\AdminController@userAdd');
-Route::get('/doctors', 'App\Http\Controllers\DoctorsController@index');
-Route::get('/doctor/{id}', 'App\Http\Controllers\DoctorsController@show');
-
-Route::post('/patients', 'App\Http\Controllers\PatientsController@store');
-Route::post('/specializations', 'App\Http\Controllers\SpecializationController@store');
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('user', [AdminController::class, 'userAdd']);
+    Route::apiResource('doctors', DoctorsController::class);
+    Route::apiResource('patients', PatientsController::class);
+    Route::apiResource('specializations', SpecializationController::class);
+});

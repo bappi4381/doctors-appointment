@@ -11,7 +11,7 @@ class AdminController extends Controller
 {
     public function userAdd(Request $request){
         $user = Auth::user();
-        if (Auth::check() && $user->hasRole('admin')) {
+        if ($user->hasRole('admin')) {
             $validator = Validator::make($request->all(), [
                 'username'  => 'required|string|max:50|unique:users',
                 'firstname' => 'nullable|string',

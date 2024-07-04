@@ -57,8 +57,8 @@ class PatientsController extends Controller
             'gender' => $request->input('gender'),
             'medical_history' => $request->input('medical_history'),
         ]);
-
-        return response()->json(['message' => 'Patient information added successfully', 'patient' => $patient], 201);
+        return response($this->format($patient,'Patient information added successfully',201),201);
+        
     
     }
 

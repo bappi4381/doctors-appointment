@@ -21,12 +21,14 @@ class AdminController extends Controller
                 'user_type' => 'required|string|in:admin,doctor,patient',
                 'phone'     => 'nullable|string',
             ]);
-    
+
+            // Check if the validation fails
             if ($validator->fails()) {
                 return response($this->format($validator->errors(),'Data validation errors',422),422);
             }
-    
-            $user = User::create([
+
+            // Create a new user
+            $newUser = User::create([
                 'username'  => $request->username,
                 'firstname' => $request->firstname,
                 'lastname'  => $request->lastname,
@@ -35,8 +37,12 @@ class AdminController extends Controller
                 'user_type' => $request->user_type,
                 'phone'     => $request->phone,
             ]);
-            return response($this->format($user,'User created successfully',200),200);
+            return response($this->format($user,'User created successfully',201),201);
         }
-        return response()->json(['error' => 'Unauthorized'], 403);
+
+        // Return an unauthorized response if the user is not an admin
+        return response($this->format('','Unauthorized', 401),401);;
+    
+
     }
 }

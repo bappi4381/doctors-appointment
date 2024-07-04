@@ -15,7 +15,8 @@ class SpecializationController extends Controller
      */
     public function index()
     {
-        //
+        $specialization = Specialization::all(); // Retrieve all users with user_type 'doctor'
+        return response($this->format($specialization,'',200),200);
     }
 
     /**
@@ -47,8 +48,7 @@ class SpecializationController extends Controller
         $specialization = Specialization::create([
             'specialization_name' => $request->input('specialization_name'),
         ]);
-
-        return response()->json(['message' => 'Specialization added successfully', 'specialization' => $specialization], 201);
+        return response($this->format($specialization,'Specialization added successfully',201), 201);
     }
 
     /**

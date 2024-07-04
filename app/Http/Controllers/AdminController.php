@@ -11,7 +11,7 @@ class AdminController extends Controller
 {
     public function userAdd(Request $request){
         $user = Auth::user();
-        if (Auth::check() && $user->hasRole('admin')) {
+        if ($user->hasRole('admin')) {
             $validator = Validator::make($request->all(), [
                 'username'  => 'required|string|max:50|unique:users',
                 'firstname' => 'nullable|string',
@@ -23,7 +23,7 @@ class AdminController extends Controller
             ]);
     
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 422);
+                return response($this->format($validator->errors(),'Data validation errors',422),422);
             }
     
             $user = User::create([
@@ -35,7 +35,7 @@ class AdminController extends Controller
                 'user_type' => $request->user_type,
                 'phone'     => $request->phone,
             ]);
-            return response()->json(['message' => 'User created successfully'], 200);
+            return response($this->format($user,'User created successfully',200),200);
         }
         return response()->json(['error' => 'Unauthorized'], 403);
     }

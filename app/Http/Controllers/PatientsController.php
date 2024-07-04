@@ -44,7 +44,7 @@ class PatientsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response($this->format($validator->errors(),'Data validation errors',422),422);
         }
 
         $user = Auth::user();

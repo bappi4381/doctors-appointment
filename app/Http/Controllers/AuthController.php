@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Passport\Passport;
 
 class AuthController extends Controller
 {
@@ -50,7 +51,8 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            // return response()->json(['errors' => $validator->errors()], 422);
+            return response($this->format($validator->errors(),'Data validation errors',422),422);
         }
 
         $credentials = $request->only('username', 'email', 'password');
@@ -59,9 +61,10 @@ class AuthController extends Controller
         if (Auth::attempt([$field => $credentials[$field], 'password' => $credentials['password']])) {
             $user = Auth::user();
             $token = $user->createToken('YourAppToken')->accessToken;
-            return response()->json(['token' => $token], 200);
+            // return response()->json(['token' => $token], 200);
+            return response($this->format(['token' => $token,],'Successfully Logged In',200),200);
         }
 
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return response($this->format('','Unauthorized', 401),401);        
     }
 }

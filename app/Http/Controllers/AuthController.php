@@ -60,15 +60,6 @@ class AuthController extends Controller
 
         if (Auth::attempt([$field => $credentials[$field], 'password' => $credentials['password']])) {
             $user = Auth::user();
-            if (!env("APP_DEBUG")) {
-                if ($request->remember_me) {
-                    Passport::personalAccessTokensExpireIn(\Carbon\Carbon::now()->addMonth(1));
-                    Passport::refreshTokensExpireIn(\Carbon\Carbon::now()->addMonth(1));
-                } else {
-                    Passport::personalAccessTokensExpireIn(\Carbon\Carbon::now()->addHour(1));
-                    Passport::refreshTokensExpireIn(\Carbon\Carbon::now()->addHour(1));
-                }
-            }
             $token = $user->createToken('YourAppToken')->accessToken;
             // return response()->json(['token' => $token], 200);
             return response($this->format(['token' => $token,],'Successfully Logged In',200),200);

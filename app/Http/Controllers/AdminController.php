@@ -16,7 +16,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        $user = User::all();
+        return response()->json($user);
     }
 
     /**
@@ -76,9 +77,10 @@ class AdminController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return response()->json($user, 200);
     }
 
     /**
@@ -112,8 +114,9 @@ class AdminController extends Controller
      * @param  
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy($id)
     {
-        //
+        User::destroy($id);
+        return response()->json(null, 204);
     }
 }

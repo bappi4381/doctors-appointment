@@ -22,7 +22,7 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::post('user', [AdminController::class, 'userAdd']);
+    Route::apiResource('users', AdminController::class);
     Route::apiResource('doctors', DoctorsController::class);
     Route::apiResource('patients', PatientsController::class);
     Route::apiResource('specializations', SpecializationController::class);

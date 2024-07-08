@@ -9,7 +9,33 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
-    public function userAdd(Request $request){
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+       
         $user = Auth::user();
         if ($user->hasRole('admin')) {
             $validator = Validator::make($request->all(), [
@@ -41,8 +67,53 @@ class AdminController extends Controller
         }
 
         // Return an unauthorized response if the user is not an admin
-        return response($this->format('','Unauthorized', 401),401);;
-    
+        return response($this->format('','Unauthorized', 401),401);
+    }
 
+    /**
+     * Display the specified resource.
+     *
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function show()
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function edit()
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        return response()->json($user, 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy()
+    {
+        //
     }
 }

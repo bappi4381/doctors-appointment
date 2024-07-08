@@ -43,10 +43,7 @@ class DoctorsController extends Controller
 
             // Check if validation fails
             if ($validator->fails()) {
-                return response()->json([
-                    'error' => 'Data validation errors',
-                    'message' => $validator->errors(),
-                ], 422);
+                return response($this->format($validator->errors(),'Data validation errors',422),422);
             }
 
             // If user is authenticated
@@ -63,11 +60,10 @@ class DoctorsController extends Controller
             ]);
 
             // Return success response
-            return response()->json([
-                'data' => $doctor_info,
-                'message' => 'Doctor info created successfully',
-            ], 201);
-        } else {
+            return response($this->format($doctor_info,'Doctor info created successfully',201),201);
+        } 
+        else
+        {
             // If user does not have admin role, return unauthorized response
             return response()->json(['error' => 'Unauthorized'], 403);
         }
@@ -81,7 +77,9 @@ class DoctorsController extends Controller
     public function show($id)
     {
         $doctor = User::where('id', $id)->where('user_type', 'doctor')->first();
-        return response()->json($doctor, 200);
+        return response($this->format($doctor,'Get successfully Doctor info',200),200);
     }
+
+   
 
 }
